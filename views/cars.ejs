@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cars</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <div class="container cars-page">
+    <div class="topbar">
+      <h1 style="font-size:22px; font-weight:800; margin:0;">Cars</h1>
+      <a href="/logout" class="btn btn-outline">Logout</a>
+    </div>
+
+    <div class="cars-grid">
+      <% cars.forEach(car => { %>
+        <div class="car-card">
+          <img src="<%= car.imageUrl %>" alt="<%= car.model %>" />
+          <div class="car-body">
+            <h2 class="car-title"><%= car.model %></h2>
+
+            <div class="car-actions">
+              <% if (!car.rentedBy) { %>
+                <!-- Available -->
+                <a href="/book?id=<%= car._id %>" class="btn btn-primary">Book Car</a>
+
+              <% } else if (car.rentedBy && String(car.rentedBy) === String(userId)) { %>
+                <!-- Rented by current user -->
+                <span>Return date: <%= car.returnDate || "—" %></span>
+                <form action="/cars/<%= car._id %>/return" method="post" class="inline">
+                  <button class="btn btn-warning">Return</button>
+                </form>
+
+              <% } else { %>
+                <!-- Rented by someone else -->
+                <span class="msg-error">Unavailable until <%= car.returnDate || "—" %></span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>
