@@ -27,7 +27,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));  // css files
 app.set("view engine", "ejs");      //ejs
 app.use(express.urlencoded({ extended: true })); //forms
-
+require('pg'); // explicitly require the "pg" module
 const session = require('express-session')
 app.use(session({
    secret: "the quick brown fox jumped over the lazy dog 1234567890",  
